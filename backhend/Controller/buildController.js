@@ -67,6 +67,11 @@ const setBuild = asyncHandler(async (req, res) => {
   var Build_Description = req.body.Build_Description;
   var Build_Id = req.body.Build_Id;
   var BuildData = req.body.BuildData;
+  var test = [];
+  BuildData.runs.forEach((runs) => {
+    test.push(runs.tests);
+  });
+
   if (!ProjectName) {
     res.status(400);
     throw new Error("Project Name is required");
@@ -75,7 +80,23 @@ const setBuild = asyncHandler(async (req, res) => {
       ProjectName,
       Build_Description,
       Build_Id,
-      BuildData,
+      BuildData: {
+        status: BuildData.status,
+        totalSuites: BuildData.totalSuites,
+        totalTests: BuildData.totalTests,
+        testPassed: BuildData.totalPassed,
+        testFailed: BuildData.totalFailed,
+        testSkipped: BuildData.totalSkipped,
+        buildStart_AT: BuildData.startedTestsAt,
+        buildEnd_AT: BuildData.endedTestsAt,
+        browserPath: BuildData.browserPath,
+        browserName: BuildData.browserName,
+        browserVersion: BuildData.browserVersion,
+        osName: BuildData.osName,
+        osVersion: BuildData.osVersion,
+        cypressVersion: BuildData.cypressVersion,
+        tests: test,
+      },
     });
     res.status(200).json(build);
   }
