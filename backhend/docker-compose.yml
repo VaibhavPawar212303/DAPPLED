@@ -20,19 +20,19 @@ services:
       - "27017:27017"
     networks:
       - example-net
-  
-  React:
+
+  react:
     image: frontend
-    build: .
+    build:
+      context: ../frontend/testrig-dashboard
+      dockerfile: Dockerfile.dev
     ports:
       - 3000:80
-    environment:
-      - PORT= 3000
     depends_on:
       - node-app
     networks:
       - example-net
-    
+
 networks:
   example-net:
 volumes:
