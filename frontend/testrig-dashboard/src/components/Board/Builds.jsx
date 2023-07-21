@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 const goToTestDetails = (item_id) => {
   localStorage.setItem("Build_Id", item_id);
@@ -14,19 +15,16 @@ export default class Builds extends Component {
     };
   }
   componentDidMount() {
-    fetch("http://127.0.0.1:8000/api/build", {
+    axios({
       method: "GET",
-      mode: 'cors',
-      accept: "application/json",
-      "Content-Type": "application/json",
-      
+      url: "http://127.0.0.1:8000/api/build",
     })
-      .then((response) => response.json())
       .then((responseData) => {
         this.setState({
-          items: responseData,
+          items: responseData.data,
           DataisLoaded: true,
         });
+        console.log(responseData);
       });
   }
 
